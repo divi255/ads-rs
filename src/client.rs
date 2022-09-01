@@ -1002,11 +1002,15 @@ pub(crate) struct DeviceInfoRaw {
     pub name:    [u8; 16],
 }
 
+/// Index structure
 #[derive(FromBytes, AsBytes, Default)]
 #[repr(C)]
-pub(crate) struct IndexLength {
+pub struct IndexLength {
+    /// index group
     pub index_group:  U32<LE>,
+    /// index offset
     pub index_offset: U32<LE>,
+    /// length
     pub length:       U32<LE>,
 }
 
@@ -1017,12 +1021,17 @@ pub(crate) struct ResultLength {
     pub length:       U32<LE>,
 }
 
+/// Index structure R/W
 #[derive(FromBytes, AsBytes, Default)]
 #[repr(C)]
-pub(crate) struct IndexLengthRW {
+pub struct IndexLengthRW {
+    /// index group
     pub index_group:  U32<LE>,
+    /// index offset
     pub index_offset: U32<LE>,
+    /// read length
     pub read_length:  U32<LE>,
+    /// write length
     pub write_length: U32<LE>,
 }
 
@@ -1088,9 +1097,11 @@ impl<'buf> ReadRequest<'buf> {
 
 /// A single request for a [`Device::write_multi`] request.
 pub struct WriteRequest<'buf> {
-    req:  IndexLength,
+    /// index length req
+    pub req:  IndexLength,
     res:  U32<LE>,
-    wbuf: &'buf [u8],
+    /// wbuf
+    pub wbuf: &'buf [u8],
 }
 
 impl<'buf> WriteRequest<'buf> {
@@ -1121,10 +1132,13 @@ impl<'buf> WriteRequest<'buf> {
 
 /// A single request for a [`Device::write_read_multi`] request.
 pub struct WriteReadRequest<'buf> {
-    req:  IndexLengthRW,
+    /// index length req
+    pub req:  IndexLengthRW,
     res:  ResultLength,
-    wbuf: &'buf [u8],
-    rbuf: &'buf mut [u8],
+    /// wbuf
+    pub wbuf: &'buf [u8],
+    /// rbuf
+    pub rbuf: &'buf mut [u8],
 }
 
 impl<'buf> WriteReadRequest<'buf> {
